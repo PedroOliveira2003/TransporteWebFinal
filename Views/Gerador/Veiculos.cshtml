@@ -1,0 +1,48 @@
+﻿@model IEnumerable<TransporteWeb.Models.Veiculo>
+
+@{
+    ViewData["Title"] = "Veiculos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Veiculos</h1>
+
+<p>
+    <a asp-action="Create">Adicionar</a>
+</p>
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nomeveiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.placa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vagas)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nomeveiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.placa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vagas)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Remover</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

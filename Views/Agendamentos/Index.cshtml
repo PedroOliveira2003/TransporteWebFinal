@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TransporteWeb.Models.Agendamento>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Agendamenos</h1>
+
+<p>
+    <a asp-action="Create">Agendar</a>
+</p>
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.data)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.horario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.estudante)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.veiculo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.horario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estudante.nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.veiculo.nomeveiculo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Remover</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

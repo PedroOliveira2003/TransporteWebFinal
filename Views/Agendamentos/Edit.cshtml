@@ -1,0 +1,50 @@
+﻿@model TransporteWeb.Models.Agendamento
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Editar</h1>
+
+<h4>Agendamento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="data" class="control-label"></label>
+                <input asp-for="data" class="form-control" />
+                <span asp-validation-for="data" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="horario" class="control-label"></label>
+                <input asp-for="horario" class="form-control" />
+                <span asp-validation-for="horario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEstudante" class="control-label"></label>
+                <select asp-for="IdEstudante" class="form-control" asp-items="ViewBag.IdEstudante"></select>
+                <span asp-validation-for="IdEstudante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdVeiculo" class="control-label"></label>
+                <select asp-for="IdVeiculo" class="form-control" asp-items="ViewBag.IdVeiculo"></select>
+                <span asp-validation-for="IdVeiculo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

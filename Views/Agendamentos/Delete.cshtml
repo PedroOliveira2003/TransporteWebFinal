@@ -1,0 +1,46 @@
+﻿@model TransporteWeb.Models.Agendamento
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Remover</h1>
+
+<h3>Deseja realmente remover?</h3>
+<div>
+    <h4>Agendamento</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.data)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.data)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.horario)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.horario)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.estudante)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.estudante.nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.veiculo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.veiculo.nomeveiculo)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
