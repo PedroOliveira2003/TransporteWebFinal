@@ -10,11 +10,17 @@
 <p>
     <a asp-action="Create">Agendar</a>
 </p>
-<form asp-action="Index" method="get">
-    <label for="busca">Buscar por Veiculo:</label>
-    <input type="text" id="busca" name="busca" value="" />
-    <input type="submit" value="Filtrar" class="btn btn-close-white" />
-</form>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Consulta" asp-action="agenEst">
+            Buscar por Veiculo: <input type="text" name="busca" value="" />
+            <input type="submit" value="Filtrar" class="btn btn-close-white" />
+        </form>
+
+
+    </div>
+</div>
 
 
 <table class="table text-white">

@@ -55,6 +55,7 @@ namespace TransporteWeb.Controllers
                 Veiculo veiculo = new Veiculo();
 
                 veiculo.nomeveiculo = (i % 2 == 0) ? vOnibus1[i / 2] : vOnibus2[i / 2];
+                veiculo.vagas = 30;
                 veiculo.placa = "AB2"+ (i+1).ToString();
                 contexto.Veiculos.Add(veiculo);
             }

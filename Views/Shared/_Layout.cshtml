@@ -24,15 +24,28 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Selecionar
+                                Geradores
+                            </a>
+                            <ul class="dropdown-menu text-white">
+                                
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Gerador" asp-action="Cursos">Gerador Cursos</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Gerador" asp-action="Veiculos">Gerador Veiculos</a></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Consulta" asp-action="Filtrar">Filtro</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Cadastros
                             </a>
                             <ul class="dropdown-menu text-white">
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Veiculos" asp-action="Index">Veiculos</a></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Estudantes" asp-action="Index">Estudante</a></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamento</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Gerador" asp-action="Cursos">Gerador Cursos</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Gerador" asp-action="Veiculos">Gerador Veiculos</a></li>
+                               
+                             
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
                             </ul>
