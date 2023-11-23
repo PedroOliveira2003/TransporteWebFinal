@@ -64,6 +64,12 @@ namespace TransporteWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                //atualiza as vagas diminuindo 1
+                Veiculo veiculo = await _context.Veiculos.FindAsync(agendamento.IdVeiculo);
+                veiculo.vagas = veiculo.vagas - 1;
+
+                _context.Update(veiculo);
+
                 _context.Add(agendamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

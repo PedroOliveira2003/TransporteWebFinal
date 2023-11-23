@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TransporteWeb.Models.Agendamento>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "agenEst";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,13 +10,6 @@
 <p>
     <a asp-action="Create">Agendar</a>
 </p>
-<form asp-action="Index" method="get">
-    <label for="busca">Buscar por Veiculo:</label>
-    <input type="text" id="busca" name="busca" value="" />
-    <input type="submit" value="Filtrar" class="btn btn-close-white" />
-</form>
-
-
 <table class="table text-white">
     <thead>
         <tr>
@@ -27,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.horario)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.estudante)
+                @Html.DisplayNameFor(model => model.estudante.nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.veiculo)
+                @Html.DisplayNameFor(model => model.veiculo.nomeveiculo)
             </th>
             <th></th>
         </tr>
@@ -49,11 +42,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.veiculo.nomeveiculo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Remover</a>
             </td>
         </tr>
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using TransporteWeb.Models;
 
 namespace TransporteWeb.Controllers
 {
+    [Authorize]
     public class GeradorController : Controller
     {
         private readonly Contexto contexto;
