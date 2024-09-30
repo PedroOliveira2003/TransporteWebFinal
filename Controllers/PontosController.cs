@@ -11,85 +11,85 @@ using TransporteWeb.Models;
 namespace TransporteWeb.Controllers
 {
     [Authorize(Roles = "Funcionario")]
-    public class VeiculosController : Controller
+    public class PontosController : Controller
     {
         private readonly Contexto _context;
 
-        public VeiculosController(Contexto context)
+        public PontosController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: Veiculos
+        // GET: Pontos
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Veiculos.ToListAsync());
+              return View(await _context.Pontos.ToListAsync());
         }
 
-        // GET: Veiculos/Details/5
+        // GET: Pontos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Veiculos == null)
+            if (id == null || _context.Pontos == null)
             {
                 return NotFound();
             }
 
-            var veiculo = await _context.Veiculos
+            var ponto = await _context.Pontos
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (veiculo == null)
+            if (ponto == null)
             {
                 return NotFound();
             }
 
-            return View(veiculo);
+            return View(ponto);
         }
 
-        // GET: Veiculos/Create
+        // GET: Pontos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Veiculos/Create
+        // POST: Pontos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,nomeveiculo,placa,vagas")] Veiculo veiculo)
+        public async Task<IActionResult> Create([Bind("id,nomeponto")] Ponto ponto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(veiculo);
+                _context.Add(ponto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(veiculo);
+            return View(ponto);
         }
 
-        // GET: Veiculos/Edit/5
+        // GET: Pontos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Veiculos == null)
+            if (id == null || _context.Pontos == null)
             {
                 return NotFound();
             }
 
-            var veiculo = await _context.Veiculos.FindAsync(id);
-            if (veiculo == null)
+            var ponto = await _context.Pontos.FindAsync(id);
+            if (ponto == null)
             {
                 return NotFound();
             }
-            return View(veiculo);
+            return View(ponto);
         }
 
-        // POST: Veiculos/Edit/5
+        // POST: Pontos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,nomeveiculo,placa,vagas")] Veiculo veiculo)
+        public async Task<IActionResult> Edit(int id, [Bind("id,nomeponto")] Ponto ponto)
         {
-            if (id != veiculo.id)
+            if (id != ponto.id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace TransporteWeb.Controllers
             {
                 try
                 {
-                    _context.Update(veiculo);
+                    _context.Update(ponto);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VeiculoExists(veiculo.id))
+                    if (!PontoExists(ponto.id))
                     {
                         return NotFound();
                     }
@@ -114,49 +114,49 @@ namespace TransporteWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(veiculo);
+            return View(ponto);
         }
 
-        // GET: Veiculos/Delete/5
+        // GET: Pontos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Veiculos == null)
+            if (id == null || _context.Pontos == null)
             {
                 return NotFound();
             }
 
-            var veiculo = await _context.Veiculos
+            var ponto = await _context.Pontos
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (veiculo == null)
+            if (ponto == null)
             {
                 return NotFound();
             }
 
-            return View(veiculo);
+            return View(ponto);
         }
 
-        // POST: Veiculos/Delete/5
+        // POST: Pontos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Veiculos == null)
+            if (_context.Pontos == null)
             {
-                return Problem("Entity set 'Contexto.Veiculos'  is null.");
+                return Problem("Entity set 'Contexto.Pontos'  is null.");
             }
-            var veiculo = await _context.Veiculos.FindAsync(id);
-            if (veiculo != null)
+            var ponto = await _context.Pontos.FindAsync(id);
+            if (ponto != null)
             {
-                _context.Veiculos.Remove(veiculo);
+                _context.Pontos.Remove(ponto);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VeiculoExists(int id)
+        private bool PontoExists(int id)
         {
-          return _context.Veiculos.Any(e => e.id == id);
+          return _context.Pontos.Any(e => e.id == id);
         }
     }
 }

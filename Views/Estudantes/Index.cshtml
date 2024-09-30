@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Estudantes</h1>
+<h1>Cadastro de Estudantes</h1>
 
 <p>
-    <a asp-action="Create">Cadastrar</a>
+    <a asp-action="Create" class="btn btn-success">Cadastrar Estudante</a>
 </p>
 <table class="table text-white">
     <thead>
@@ -20,29 +20,30 @@
                 @Html.DisplayNameFor(model => model.telefone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.curso)
+                @Html.DisplayNameFor(model => model.curso.nome)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.telefone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.curso.nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Remover</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.curso.nome)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Remover</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

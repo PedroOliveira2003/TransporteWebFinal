@@ -13,6 +13,15 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Exibindo mensagem de sucesso ou erro -->
+            @if (TempData["Mensagem"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Mensagem"]
+                </div>
+            }
+
             <div class="form-group">
                 <label asp-for="nome" class="control-label"></label>
                 <input asp-for="nome" class="form-control" />
@@ -25,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdCurso" class="control-label"></label>
-                <select asp-for="IdCurso" class ="form-control" asp-items="ViewBag.IdCurso"></select>
+                <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.IdCurso"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Adicionar" class="btn btn-primary" />
@@ -39,5 +48,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

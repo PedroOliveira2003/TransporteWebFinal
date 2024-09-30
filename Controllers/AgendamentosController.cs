@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,7 +20,7 @@ namespace TransporteWeb.Controllers
         // GET: Agendamentos
         public async Task<IActionResult> Index()
         {
-            var contexto = _context.Agendamentos.Include(a => a.estudante).Include(a => a.veiculo);
+            var contexto = _context.Agendamentos.Include(a => a.estudante).Include(a => a.veiculo).Include(a => a.ponto);
             return View(await contexto.ToListAsync());
         }
 
@@ -38,6 +35,7 @@ namespace TransporteWeb.Controllers
             var agendamento = await _context.Agendamentos
                 .Include(a => a.estudante)
                 .Include(a => a.veiculo)
+                .Include(a => a.ponto)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (agendamento == null)
             {
@@ -52,30 +50,65 @@ namespace TransporteWeb.Controllers
         {
             ViewData["IdEstudante"] = new SelectList(_context.Estudantes, "id", "nome");
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "id", "nomeveiculo");
+            ViewData["IdPonto"] = new SelectList(_context.Pontos, "id", "nomeponto");
             return View();
         }
 
         // POST: Agendamentos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,data,horario,IdEstudante,IdVeiculo")] Agendamento agendamento)
+        public async Task<IActionResult> Create([Bind("id,data,IdEstudante,IdVeiculo,IdPonto,TipoViagem")] Agendamento agendamento)
         {
             if (ModelState.IsValid)
             {
-                //atualiza as vagas diminuindo 1
+                // Verifica o número de agendamentos do estudante
+                var agendamentosEstudante = await _context.Agendamentos
+                    .CountAsync(a => a.IdEstudante == agendamento.IdEstudante);
+
+                if (agendamentosEstudante >= 2)
+                {
+                    ModelState.AddModelError("", "VOCE POSSUI 2 AGENDAMENTOS. CANCELE UM.");
+                    ViewData["IdEstudante"] = new SelectList(_context.Estudantes, "id", "nome", agendamento.IdEstudante);
+                    ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "id", "nomeveiculo", agendamento.IdVeiculo);
+                    ViewData["IdPonto"] = new SelectList(_context.Pontos, "id", "nomeponto", agendamento.IdPonto);
+                    return View(agendamento);
+                }
+
+                // Encontra o veículo correspondente ao agendamento
                 Veiculo veiculo = await _context.Veiculos.FindAsync(agendamento.IdVeiculo);
-                veiculo.vagas = veiculo.vagas - 1;
 
+                // Verifica se o veículo foi encontrado
+                if (veiculo == null)
+                {
+                    ModelState.AddModelError("", "Veículo não encontrado.");
+                    return View(agendamento);
+                }
+
+                // Verifica se há vagas disponíveis
+                if (veiculo.vagas <= 0)
+                {
+                    ModelState.AddModelError("", "ÔNIBUS LOTADO. Não é possível fazer o agendamento.");
+                    ViewData["IdEstudante"] = new SelectList(_context.Estudantes, "id", "nome", agendamento.IdEstudante);
+                    ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "id", "nomeveiculo", agendamento.IdVeiculo);
+                    ViewData["IdPonto"] = new SelectList(_context.Pontos, "id", "nomeponto", agendamento.IdPonto);
+                    return View(agendamento);
+                }
+
+                // Diminui o número de vagas
+                veiculo.vagas--;
+
+                // Atualiza o veículo e adiciona o agendamento
                 _context.Update(veiculo);
-
                 _context.Add(agendamento);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // Se o ModelState não for válido, repopula os dados
             ViewData["IdEstudante"] = new SelectList(_context.Estudantes, "id", "nome", agendamento.IdEstudante);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "id", "nomeveiculo", agendamento.IdVeiculo);
+            ViewData["IdPonto"] = new SelectList(_context.Pontos, "id", "nomeponto", agendamento.IdPonto);
             return View(agendamento);
         }
 
@@ -94,15 +127,14 @@ namespace TransporteWeb.Controllers
             }
             ViewData["IdEstudante"] = new SelectList(_context.Estudantes, "id", "nome", agendamento.IdEstudante);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "id", "nomeveiculo", agendamento.IdVeiculo);
+            ViewData["IdPonto"] = new SelectList(_context.Pontos, "id", "nomeponto", agendamento.IdPonto);
             return View(agendamento);
         }
 
         // POST: Agendamentos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,data,horario,IdEstudante,IdVeiculo")] Agendamento agendamento)
+        public async Task<IActionResult> Edit(int id, [Bind("id,data,IdEstudante,IdVeiculo,IdPonto,TipoViagem")] Agendamento agendamento)
         {
             if (id != agendamento.id)
             {
@@ -131,6 +163,7 @@ namespace TransporteWeb.Controllers
             }
             ViewData["IdEstudante"] = new SelectList(_context.Estudantes, "id", "nome", agendamento.IdEstudante);
             ViewData["IdVeiculo"] = new SelectList(_context.Veiculos, "id", "nomeveiculo", agendamento.IdVeiculo);
+            ViewData["IdPonto"] = new SelectList(_context.Pontos, "id", "nomeponto", agendamento.IdPonto);
             return View(agendamento);
         }
 
@@ -145,6 +178,7 @@ namespace TransporteWeb.Controllers
             var agendamento = await _context.Agendamentos
                 .Include(a => a.estudante)
                 .Include(a => a.veiculo)
+                .Include(a => a.ponto)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (agendamento == null)
             {
@@ -161,21 +195,21 @@ namespace TransporteWeb.Controllers
         {
             if (_context.Agendamentos == null)
             {
-                return Problem("Entity set 'Contexto.Agendamentos'  is null.");
+                return Problem("Entity set 'Contexto.Agendamentos' is null.");
             }
             var agendamento = await _context.Agendamentos.FindAsync(id);
             if (agendamento != null)
             {
                 _context.Agendamentos.Remove(agendamento);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AgendamentoExists(int id)
         {
-          return _context.Agendamentos.Any(e => e.id == id);
+            return _context.Agendamentos.Any(e => e.id == id);
         }
     }
 }

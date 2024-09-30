@@ -8,46 +8,57 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Transporte.styles.css" asp-append-version="true" />
 </head>
-<body class="bg-dark text-white">
-    <header class="bg-black text-white">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black text-white border-bottom box-shadow mb-3">
+<body class="bg-dark text-light">
+    <header class="bg-dark text-light shadow-sm">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Transporte</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/aeta-removebg-preview.png" alt="Logo" width="60" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Geradores
                             </a>
-                            <ul class="dropdown-menu text-white">
-                                
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Gerador" asp-action="Cursos">Gerador Cursos</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Gerador" asp-action="Veiculos">Gerador Veiculos</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Consulta" asp-action="Filtrar">Filtro</a></li>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Gerador" asp-action="Cursos">Gerador Cursos</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Gerador" asp-action="Veiculos">Gerador Veículos</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Consulta" asp-action="Filtrar">Filtro</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Cadastros
+                                Funcionario
                             </a>
-                            <ul class="dropdown-menu text-white">
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Veiculos" asp-action="Index">Veiculos</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Estudantes" asp-action="Index">Estudante</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamento</a></li>
-                               
-                             
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Veiculos" asp-action="Index">Veículos</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Estudantes" asp-action="Index">Estudantes</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Pontos" asp-action="Index">Pontos de Embarque</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Motorista
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Motoristas" asp-action="index">Agendamentos</a></li>
+     
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -56,17 +67,19 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="bg-black  border-top footer text-white">
-        <div class="container">
-            &copy; 2023 - Sistema de Transporte
+    <footer class="bg-dark text-light border-top py-3 mt-auto">
+        <div class="container text-center">
+            &copy; 2024 - Sistema de Transporte | Todos os direitos reservados.
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

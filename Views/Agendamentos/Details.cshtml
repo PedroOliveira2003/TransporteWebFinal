@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Detalhes</h1>
+<h1>Details</h1>
 
 <div>
     <h4>Agendamento</h4>
@@ -18,10 +18,10 @@
             @Html.DisplayFor(model => model.data)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.horario)
+            @Html.DisplayNameFor(model => model.TipoViagem)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.horario)
+            @Html.DisplayFor(model => model.TipoViagem)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.estudante)
@@ -35,9 +35,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.veiculo.nomeveiculo)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ponto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ponto.nomeponto)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Editar</a> |
-    <a asp-action="Index">Voltar</a>
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

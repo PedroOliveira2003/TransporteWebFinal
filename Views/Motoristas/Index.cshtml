@@ -1,0 +1,85 @@
+﻿@model TransporteWeb.Models.MotoristaAgendamentoViewModel
+
+@{
+    ViewData["Title"] = "Agendamentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Agendamentos</h1>
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Mensagem"]
+    </div>
+}
+
+<table class="table text-white">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Agendamentos.First().estudante.nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Agendamentos.First().veiculo.nomeveiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Agendamentos.First().ponto.nomeponto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Agendamentos.First().TipoViagem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Confirmacoes.First().PresencaConfirmada)
+            </th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var agendamento in Model.Agendamentos)
+        {
+            // Verificar se existe uma confirmação de presença
+            var confirmacao = Model.Confirmacoes.FirstOrDefault(c => c.IdAgendamento == agendamento.id);
+            <tr>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => agendamento.estudante.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => agendamento.veiculo.nomeveiculo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => agendamento.ponto.nomeponto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => agendamento.TipoViagem)
+                </td>
+                <td>
+                    @if (confirmacao != null)
+                    {
+                        @Html.DisplayFor(modelItem => confirmacao.PresencaConfirmada)
+                    }
+                    else
+                    {
+                        <span>Nenhuma confirmação</span>
+                    }
+                </td>
+                <td>
+                    <form asp-action="ConfirmarPresenca" method="post">
+                        <input type="hidden" name="IdAgendamento" value="@agendamento.id" />
+                        @if (confirmacao == null) // Verifica se ainda não foi confirmado
+                        {
+                            <button type="submit" name="Presenca" value="true" class="btn btn-success">Confirmar</button>
+                            <button type="submit" name="Presenca" value="false" class="btn btn-danger">Cancelar</button>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Ação não permitida</span> <!-- Mensagem de ação não permitida -->
+                        }
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

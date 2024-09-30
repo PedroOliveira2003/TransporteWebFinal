@@ -8,7 +8,7 @@
 <h1>Cursos</h1>
 
 <p>
-    <a asp-action="Create">Adicionar Curso</a>
+    <a asp-action="Create" class="btn btn-success">Cadastrar Curso</a>
 </p>
 <table class="table text-white">
     <thead>
@@ -26,9 +26,9 @@
                 @Html.DisplayFor(modelItem => item.nome)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Remover</a>
+                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Remover</a>
             </td>
         </tr>
 }

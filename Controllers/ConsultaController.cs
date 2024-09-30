@@ -5,7 +5,7 @@ using TransporteWeb.Models;
 
 namespace TransporteWeb.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Funcionario")]
     public class ConsultaController : Controller
     {
         private readonly Contexto contexto;

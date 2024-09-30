@@ -2,13 +2,61 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center ">
-    <h1 class="display-4">BEM VINDO AO SISTEMA DE AGENDAMENTO</h1>
-  
-    <a href="Agendamentos/Create" class="btn btn-primary btn-lg">Agendar</a>
-    <a href="Estudantes/Create" class="btn btn-primary btn-lg">Estudantes</a>
-    <a href="Veiculos/Create" class="btn btn-primary btn-lg">Veiculos</a>
-  
-    <img src="https://images.unsplash.com/photo-1570125909517-53cb21c89ff2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8b25pYnVzfGVufDB8fDB8fHww" />
-    <p>DESENVOLVIDO POR <a href="https://github.com/PedroOliveira2003">GITHUB</a>.</p>
+<style>
+    body {
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+        position: relative;
+        overflow: hidden; 
+    }
+
+    .background-image {
+        background-image: url('https://images.unsplash.com/photo-1570125909517-53cb21c89ff2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8b25pYnVzfGVufDB8fDB8fHww');
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.2; 
+        z-index: -1; 
+    }
+
+    .hero {
+        background: rgba(0, 123, 255, 0.8); 
+        color: white;
+        padding: 50px 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .btn-group {
+        margin-top: 20px;
+    }
+
+    .footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+
+<div class="background-image"></div>
+
+<div class="text-center">
+    <div class="hero">
+        <h1 class="display-4 mb-4">Bem-vindo ao Sistema de Agendamento</h1>
+        <p class="lead">Transportando voce com seguranca ate a sua faculdade.</p>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Ações principais">
+        <a href="Agendamentos/Create" class="btn btn-primary btn-lg">Agendar</a>
+        <a href="Estudantes/Create" class="btn btn-secondary btn-lg">Estudantes</a>
+        <a href="Veiculos/Create" class="btn btn-success btn-lg">Veículos</a>
+    </div>
+
+    <footer class="footer">
+        <p>Desenvolvido por <a href="https://github.com/PedroOliveira2003" target="_blank">Pedro Oliveira</a>.</p>
+    </footer>
 </div>

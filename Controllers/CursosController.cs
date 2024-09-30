@@ -10,7 +10,7 @@ using TransporteWeb.Models;
 
 namespace TransporteWeb.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Funcionario")]
     public class CursosController : Controller
     {
         private readonly Contexto _context;

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TransporteWeb.Models;
 
@@ -11,9 +12,11 @@ using TransporteWeb.Models;
 namespace TransporteWeb.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240928193359_CreateConfirmacaoPresencaTable")]
+    partial class CreateConfirmacaoPresencaTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,27 +57,6 @@ namespace TransporteWeb.Migrations
                     b.HasIndex("IdVeiculo");
 
                     b.ToTable("Agendamentos");
-                });
-
-            modelBuilder.Entity("TransporteWeb.Models.ConfirmacaoPresenca", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IdAgendamento")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PresencaConfirmada")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdAgendamento");
-
-                    b.ToTable("ConfirmacaoPresencas");
                 });
 
             modelBuilder.Entity("TransporteWeb.Models.Curso", b =>
@@ -192,17 +174,6 @@ namespace TransporteWeb.Migrations
                     b.Navigation("ponto");
 
                     b.Navigation("veiculo");
-                });
-
-            modelBuilder.Entity("TransporteWeb.Models.ConfirmacaoPresenca", b =>
-                {
-                    b.HasOne("TransporteWeb.Models.Agendamento", "Agendamento")
-                        .WithMany()
-                        .HasForeignKey("IdAgendamento")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Agendamento");
                 });
 
             modelBuilder.Entity("TransporteWeb.Models.Estudante", b =>

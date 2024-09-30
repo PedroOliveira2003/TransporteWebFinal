@@ -14,9 +14,9 @@ namespace TransporteWeb.Models
         [Required(ErrorMessage = "DATA OBRIGATORIA")]
         public DateTime data { get; set; }
 
-        [DataType(DataType.Time)]
-        [Required(ErrorMessage = "HORARIO OBRIGATORIO")]
-        public TimeSpan horario { get; set; }
+        [Display(Name = "Tipo de Viagem")]
+        [Required(ErrorMessage = "TIPO DE VIAGEM OBRIGATÓRIO")]
+        public Viagem TipoViagem { get; set; }
 
         [Display(Name = "Estudante")]
         public int IdEstudante { get; set; }
@@ -27,5 +27,17 @@ namespace TransporteWeb.Models
         public int IdVeiculo { get; set; }
         [ForeignKey("IdVeiculo")]
         public Veiculo veiculo { get; set; }
+
+        [Display(Name = "Ponto")]
+        public int IdPonto { get; set;}
+        [ForeignKey("IdPonto")]
+        public Ponto ponto { get; set;}
     }
+}
+
+
+public enum Viagem
+{
+    Ida,
+    Volta
 }

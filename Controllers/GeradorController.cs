@@ -6,7 +6,7 @@ using TransporteWeb.Models;
 
 namespace TransporteWeb.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Funcionario")]
     public class GeradorController : Controller
     {
         private readonly Contexto contexto;

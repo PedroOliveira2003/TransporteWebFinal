@@ -5,24 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Agendamentos</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Agendar</a>
+    <a asp-action="Create">Create New</a>
 </p>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="Consulta" asp-action="agenEst">
-            Buscar por Veiculo: <input type="text" name="busca" value="" />
-            <input type="submit" value="Filtrar" class="btn btn-close-white" />
-        </form>
-
-
-    </div>
-</div>
-
-
 <table class="table text-white">
     <thead>
         <tr>
@@ -30,13 +17,16 @@
                 @Html.DisplayNameFor(model => model.data)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.horario)
+                @Html.DisplayNameFor(model => model.TipoViagem)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.estudante)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.veiculo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ponto)
             </th>
             <th></th>
         </tr>
@@ -48,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.data)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.horario)
+                @Html.DisplayFor(modelItem => item.TipoViagem)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.estudante.nome)
@@ -57,9 +47,12 @@
                 @Html.DisplayFor(modelItem => item.veiculo.nomeveiculo)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Remover</a>
+                @Html.DisplayFor(modelItem => item.ponto.nomeponto)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>
 }

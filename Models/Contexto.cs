@@ -14,6 +14,10 @@ namespace TransporteWeb.Models
 
         public DbSet<Agendamento> Agendamentos { get; set; }
 
+        public DbSet<Ponto> Pontos { get; set; }
+
+        public DbSet<ConfirmacaoPresenca> ConfirmacaoPresencas { get; set; }
+
 
     }
 }
