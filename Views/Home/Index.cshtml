@@ -51,9 +51,18 @@
     </div>
 
     <div class="btn-group" role="group" aria-label="Ações principais">
-        <a href="Agendamentos/Create" class="btn btn-primary btn-lg">Agendar</a>
-        <a href="Estudantes/Create" class="btn btn-secondary btn-lg">Estudantes</a>
-        <a href="Veiculos/Create" class="btn btn-success btn-lg">Veículos</a>
+        @if (User.IsInRole("Estudante"))
+        {
+            <a href="Agendamentos/Create" class="btn btn-primary btn-lg">Agendar</a>
+        }
+        @if (User.IsInRole("Funcionario"))
+        {
+            <a href="Estudantes/Create" class="btn btn-secondary btn-lg">Estudantes</a>
+            <a href="Veiculos/Create" class="btn btn-success btn-lg">Veículos</a>
+            <a href="Pontos/Create" class="btn btn-secondary btn-lg">Pontos de Embarque</a>
+            <a href="Cursos/Create" class="btn btn-success btn-lg">Cursos</a>
+        }
+        
     </div>
 
     <footer class="footer">

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TransporteWeb.Models.Estudante>
+
+<h2>Estudantes com Multa</h2>
+
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Multa</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estudante in Model)
+        {
+            <tr>
+                <td>@estudante.id</td>
+                <td>@estudante.nome</td>
+                <td>@estudante.telefone</td>
+                <td>@estudante.Multa</td>
+                <td>
+                   
+                    <a asp-action="Pagar" asp-route-idEstudante="@estudante.id" class="btn btn-primary">Pagar</a>
+
+                   
+                    <a href="https://wa.me/@(estudante.telefone.Trim().Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", ""))?text=@(Uri.EscapeDataString($"Olá {estudante.nome}, você possui um valor pendente referente a Multas no valor de {estudante.Multa}. Efetue o pagamento para o pix CNPJ: TCCAPROVADOSENHORPELOAMORDEDEUS2024, POR FAVOR ENVIE O COMPROVANTE"))"
+                       class="btn btn-success" target="_blank">
+                        Informativo
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

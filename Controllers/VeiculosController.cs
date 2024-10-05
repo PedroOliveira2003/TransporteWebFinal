@@ -21,9 +21,24 @@ namespace TransporteWeb.Controllers
         }
 
         // GET: Veiculos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int page = 1)
         {
-              return View(await _context.Veiculos.ToListAsync());
+            var veiculos = from v in _context.Veiculos select v; // Query inicial
+
+            // Aplicar busca
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                veiculos = veiculos.Where(v => v.nomeveiculo.Contains(searchString)); // Ajuste conforme necessário
+            }
+
+            // Configuração de paginação
+            int pageSize = 10; // Defina o tamanho da página
+            ViewBag.TotalPages = Math.Ceiling(await veiculos.CountAsync() / (double)pageSize);
+            ViewBag.CurrentPage = page;
+            var pagedVeiculos = await veiculos.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            ViewBag.SearchString = searchString; // Passa a string de busca para a View
+            return View(pagedVeiculos);
         }
 
         // GET: Veiculos/Details/5
@@ -51,8 +66,6 @@ namespace TransporteWeb.Controllers
         }
 
         // POST: Veiculos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,nomeveiculo,placa,vagas")] Veiculo veiculo)
@@ -83,8 +96,6 @@ namespace TransporteWeb.Controllers
         }
 
         // POST: Veiculos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,nomeveiculo,placa,vagas")] Veiculo veiculo)
@@ -149,14 +160,14 @@ namespace TransporteWeb.Controllers
             {
                 _context.Veiculos.Remove(veiculo);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VeiculoExists(int id)
         {
-          return _context.Veiculos.Any(e => e.id == id);
+            return _context.Veiculos.Any(e => e.id == id);
         }
     }
 }

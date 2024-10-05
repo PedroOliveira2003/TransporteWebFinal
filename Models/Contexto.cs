@@ -18,6 +18,9 @@ namespace TransporteWeb.Models
 
         public DbSet<ConfirmacaoPresenca> ConfirmacaoPresencas { get; set; }
 
+        public DbSet<PagamentoMulta> PagamentosMulta { get; set; }
+
+
 
     }
 }

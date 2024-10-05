@@ -21,6 +21,8 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav">
+                         @if(User.IsInRole("Funcionario"))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
                         </li>
@@ -36,20 +38,37 @@
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Funcionario
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Veiculos" asp-action="Index">Veículos</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Estudantes" asp-action="Index">Estudantes</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Pontos" asp-action="Index">Pontos de Embarque</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
-                            </ul>
-                        </li>
+                       
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Funcionario
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Veiculos" asp-action="Index">Veículos</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Estudantes" asp-action="Index">Estudantes</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Agendamentos" asp-action="Index">Agendamentos</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Pontos" asp-action="Index">Pontos de Embarque</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pagamentos
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="PagamentoMultas" asp-action="Lista">Lista de Pagamentos</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="PagamentoMultas" asp-action="EstudantesComMulta">Cobranca</a></li>
+
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
+                                </ul>
+                            </li>
+                            
+                        }
+                        @if (User.IsInRole("Motorista"))
+                        {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Motorista
@@ -61,6 +80,21 @@
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
                             </ul>
                         </li>
+                        }
+                        @if (User.IsInRole("Estudante"))
+                        {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Agendamento
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Agendamentos" asp-action="Create">Agendar</a></li>
+
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Início</a></li>
+                            </ul>
+                        </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

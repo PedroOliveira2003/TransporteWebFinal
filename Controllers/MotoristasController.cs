@@ -67,11 +67,45 @@ namespace TransporteWeb.Controllers
                 IdAgendamento = idAgendamento,
                 PresencaConfirmada = presenca
             };
+
+            // Se a presença for cancelada (presenca == false), atribui multa ao estudante
+            if (!presenca)
+            {
+                // Recupera o agendamento correspondente
+                var agendamento = await _context.Agendamentos
+                    .Include(a => a.estudante) // Inclui o estudante para acessar os dados dele
+                    .FirstOrDefaultAsync(a => a.id == idAgendamento);
+
+                if (agendamento != null)
+                {
+                    // Atribui a multa ao estudante
+                    var estudante = agendamento.estudante;
+                    // Defina o valor da multa conforme sua lógica (ex: 50,00)
+                    decimal valorMulta = 5m; // Você pode ajustar esse valor conforme necessário
+
+                    // Adiciona o valor da multa
+                    estudante.Multa += valorMulta; // Atualiza o valor da multa do estudante
+                    _context.Estudantes.Update(estudante); // Marca o estudante para atualização
+                }
+            }
+
+            // Adiciona a nova confirmação ao contexto
             _context.ConfirmacaoPresencas.Add(confirmacao);
 
             // Salva as alterações no contexto
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Motorista/EstudantesComMulta
+        public async Task<IActionResult> EstudantesComMulta()
+        {
+            // Busca todos os estudantes que possuem multa
+            var estudantesComMulta = await _context.Estudantes
+                .Where(e => e.Multa > 0) // Filtra estudantes com multa maior que zero
+                .ToListAsync();
+
+            return View(estudantesComMulta); // Retorna a lista para a view
         }
     }
 }

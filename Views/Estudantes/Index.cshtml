@@ -1,49 +1,62 @@
 ﻿@model IEnumerable<TransporteWeb.Models.Estudante>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Estudantes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Cadastro de Estudantes</h1>
+<h1>Estudantes</h1>
 
-<p>
+<!-- Formulário de busca alinhado à direita -->
+<div class="d-flex justify-content-between mb-3">
     <a asp-action="Create" class="btn btn-success">Cadastrar Estudante</a>
-</p>
+
+    <form asp-action="Index" method="get" class="form-inline">
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Buscar estudante..." class="form-control" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table text-white">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.telefone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.curso.nome)
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Curso</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var estudante in Model)
         {
             <tr>
+                <td>@estudante.id</td>
+                <td>@Html.DisplayFor(modelItem => estudante.nome)</td>
+                <td>@Html.DisplayFor(modelItem => estudante.telefone)</td>
+                <td>@estudante.curso?.nome</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.telefone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.curso.nome)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a>
-                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Remover</a>
+                    <a asp-action="Edit" asp-route-id="@estudante.id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@estudante.id" class="btn btn-info">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@estudante.id" class="btn btn-danger">Remover</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Paginação -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchString="@ViewBag.SearchString">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

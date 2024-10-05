@@ -1,48 +1,60 @@
 ﻿@model IEnumerable<TransporteWeb.Models.Veiculo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Veículos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Veiculos</h1>
+<h1>Veículos</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Cadastrar Veiculo</a>
-</p>
+<!-- Formulário de busca alinhado à direita -->
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="Create" class="btn btn-success">Cadastrar Veículo</a>
+
+    <form asp-action="Index" method="get" class="form-inline">
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Buscar veículo..." class="form-control" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table text-white">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.nomeveiculo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.placa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.vagas)
-            </th>
-            <th></th>
+            <th>Nome do Veículo</th>
+            <th>Placa</th>
+            <th>Vagas</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nomeveiculo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.placa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.vagas)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.nomeveiculo)</td>
+                <td>@Html.DisplayFor(modelItem => item.placa)</td>
+                <td>@Html.DisplayFor(modelItem => item.vagas)</td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a>
                     <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Remover</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<!-- Paginação -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchString="@ViewBag.SearchString">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

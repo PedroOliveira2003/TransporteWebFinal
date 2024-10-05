@@ -7,31 +7,50 @@
 
 <h1>Pontos</h1>
 
-<p>
+<!-- Formulário de busca alinhado à direita -->
+<div class="d-flex justify-content-between mb-3">
     <a asp-action="Create" class="btn btn-success">Cadastrar Ponto</a>
-</p>
+
+    <form asp-action="Index" method="get" class="form-inline">
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Buscar ponto..." class="form-control" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table text-white">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.nomeponto)
-            </th>
-            <th></th>
+            <th>Nome do Ponto</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => item.nomeponto)</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.nomeponto)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a> |
+                    <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a>
                     <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Remover</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Paginação -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchString="@ViewBag.SearchString">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

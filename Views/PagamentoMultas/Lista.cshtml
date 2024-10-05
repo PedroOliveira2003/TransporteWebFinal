@@ -1,0 +1,25 @@
+﻿@model IEnumerable<TransporteWeb.Models.PagamentoMulta>
+
+    <h2>Lista de Pagamentos de Multa</h2>
+
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Estudante</th>
+                <th>Valor</th>
+                <th>Data do Pagamento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pagamento in Model)
+            {
+                <tr>
+                    <td>@pagamento.Id</td>
+                    <td>@pagamento.Estudante.nome</td> <!-- Verifique a propriedade correta -->
+                    <td>@pagamento.Valor</td>
+                    <td>@pagamento.DataPagamento.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>

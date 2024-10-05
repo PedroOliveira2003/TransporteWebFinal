@@ -21,9 +21,33 @@ namespace TransporteWeb.Controllers
         }
 
         // GET: Cursos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? page, int pageSize = 10)
         {
-              return View(await _context.Cursos.ToListAsync());
+            int pageNumber = page ?? 1;  // Se o número da página não for fornecido, default é 1.
+            var cursos = from c in _context.Cursos
+                         select c;
+
+            // Aplica o filtro de busca
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                cursos = cursos.Where(c => c.nome.Contains(searchString));
+            }
+
+            int totalItems = await cursos.CountAsync(); // Conta o total de itens após o filtro.
+
+            // Aplica a paginação
+            var cursosPaginados = await cursos
+                .OrderBy(c => c.nome) // Ordena os cursos por nome.
+                .Skip((pageNumber - 1) * pageSize) // Pula os registros das páginas anteriores.
+                .Take(pageSize) // Pega o número de registros da página atual.
+                .ToListAsync();
+
+            // Passa o número de páginas e outros dados para a View
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.SearchString = searchString;
+
+            return View(cursosPaginados);
         }
 
         // GET: Cursos/Details/5
@@ -51,8 +75,6 @@ namespace TransporteWeb.Controllers
         }
 
         // POST: Cursos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,nome")] Curso curso)
@@ -83,8 +105,6 @@ namespace TransporteWeb.Controllers
         }
 
         // POST: Cursos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,nome")] Curso curso)
@@ -149,14 +169,14 @@ namespace TransporteWeb.Controllers
             {
                 _context.Cursos.Remove(curso);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CursoExists(int id)
         {
-          return _context.Cursos.Any(e => e.id == id);
+            return _context.Cursos.Any(e => e.id == id);
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model TransporteWeb.Models.PagamentoMulta
+
+<h2>Pagar Multa</h2>
+
+<div class="container">
+    <form asp-action="Pagar" method="post">
+        <div class="form-group">
+            <label asp-for="IdEstudante" class="control-label"></label>
+            <input asp-for="IdEstudante" type="hidden" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Valor" class="control-label"></label>
+            <input asp-for="Valor" class="form-control" readonly />
+        </div>
+        <button type="submit" class="btn btn-primary">Pagar</button>
+        <a asp-action="EstudantesComMulta" class="btn btn-secondary">Voltar</a>
+    </form>
+
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success mt-3">
+            @TempData["Mensagem"]
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mt-3">
+            <strong>Erro:</strong> Verifique os dados inseridos.
+        </div>
+    }
+</div>

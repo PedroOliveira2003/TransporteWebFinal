@@ -16,7 +16,6 @@ namespace TransporteWeb.Models
         [StringLength(40)]
         public string nome { get; set; }
 
-
         [Display(Name = "TELEFONE")]
         [Required(ErrorMessage = "TELEFONE É OBRIGATORIO")]
         [StringLength(11)]
@@ -26,6 +25,10 @@ namespace TransporteWeb.Models
         public int IdCurso { get; set; }
         [ForeignKey("IdCurso")]
         public Curso curso { get; set; }
+
         
+        [Display(Name = "Multa")]
+        [Column(TypeName = "decimal(18,2)")] 
+        public decimal Multa { get; set; } = 0; 
     }
 }

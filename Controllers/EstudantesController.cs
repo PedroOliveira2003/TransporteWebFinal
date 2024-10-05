@@ -21,10 +21,33 @@ namespace TransporteWeb.Controllers
         }
 
         // GET: Estudantes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? page, int pageSize = 10)
         {
-            var contexto = _context.Estudantes.Include(e => e.curso);
-            return View(await contexto.ToListAsync());
+            int pageNumber = page ?? 1;  // Se o número da página não for fornecido, default é 1.
+            var estudantes = from e in _context.Estudantes.Include(e => e.curso)
+                             select e;
+
+            // Aplica o filtro de busca
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                estudantes = estudantes.Where(s => s.nome.Contains(searchString));
+            }
+
+            int totalItems = await estudantes.CountAsync(); // Conta o total de itens após o filtro.
+
+            // Aplica a paginação
+            var estudantesPaginados = await estudantes
+                .OrderBy(s => s.nome) // Ordena os estudantes por nome.
+                .Skip((pageNumber - 1) * pageSize) // Pula os registros das páginas anteriores.
+                .Take(pageSize) // Pega o número de registros da página atual.
+                .ToListAsync();
+
+            // Passa o número de páginas e outros dados para a View
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.SearchString = searchString;
+
+            return View(estudantesPaginados);
         }
 
         // GET: Estudantes/Details/5
