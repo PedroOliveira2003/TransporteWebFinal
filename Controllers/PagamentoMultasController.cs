@@ -19,13 +19,41 @@ namespace TransporteWeb.Controllers
         }
 
         // GET: PagamentoMultas/Lista
-        public async Task<IActionResult> Lista()
+        public async Task<IActionResult> Lista(string searchString, int? page, int pageSize = 10)
         {
-            var pagamentos = await _context.PagamentosMulta
-                .Include(p => p.Estudante)
-                .ToListAsync();
+            try
+            {
+                int pageNumber = page ?? 1;  // Se o número da página não for fornecido, default é 1.
+                var pagamentosQuery = _context.PagamentosMulta.Include(p => p.Estudante).AsQueryable();
 
-            return View(pagamentos);
+                // Aplica o filtro de busca
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    pagamentosQuery = pagamentosQuery.Where(p => p.Estudante.nome.ToLower().Contains(searchString.ToLower()));
+                }
+
+                int totalItems = await pagamentosQuery.CountAsync(); // Conta o total de itens após o filtro.
+
+                // Aplica a paginação
+                var pagamentosPaginados = await pagamentosQuery
+                    .OrderBy(p => p.DataPagamento) // Ordena os pagamentos pela data de pagamento.
+                    .Skip((pageNumber - 1) * pageSize) // Pula os registros das páginas anteriores.
+                    .Take(pageSize) // Pega o número de registros da página atual.
+                    .ToListAsync();
+
+                // Passa o número de páginas e outros dados para a View
+                ViewBag.CurrentPage = pageNumber;
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+                ViewBag.SearchString = searchString;
+
+                return View(pagamentosPaginados);
+            }
+            catch (Exception ex)
+            {
+                // Tratar a exceção (log, mensagem de erro, etc.)
+                TempData["Erro"] = ex.Message; // Ou log em algum sistema de log
+                return View(new List<PagamentoMulta>()); // Retorna uma lista vazia em caso de erro
+            }
         }
 
         // GET: PagamentoMultas/EstudantesComMulta

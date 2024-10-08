@@ -1,25 +1,54 @@
 ﻿@model IEnumerable<TransporteWeb.Models.PagamentoMulta>
 
-    <h2>Lista de Pagamentos de Multa</h2>
+@{
+    ViewData["Title"] = "Lista de Pagamentos de Multa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    <table class="table text-white">
-        <thead>
+<h2>Lista de Pagamentos de Multa</h2>
+
+
+<div class="d-flex justify-content-between mb-3">
+    <form asp-action="Index" method="get" class="form-inline">
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Buscar pagamento..." class="form-control" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table class="table text-white">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Estudante</th>
+            <th>Valor</th>
+            <th>Data do Pagamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pagamento in Model)
+        {
             <tr>
-                <th>Id</th>
-                <th>Estudante</th>
-                <th>Valor</th>
-                <th>Data do Pagamento</th>
+                <td>@pagamento.Id</td>
+                <td>@pagamento.Estudante.nome</td> 
+                <td>@pagamento.Valor</td>
+                <td>@pagamento.DataPagamento.ToShortDateString()</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var pagamento in Model)
-            {
-                <tr>
-                    <td>@pagamento.Id</td>
-                    <td>@pagamento.Estudante.nome</td> <!-- Verifique a propriedade correta -->
-                    <td>@pagamento.Valor</td>
-                    <td>@pagamento.DataPagamento.ToShortDateString()</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
+<!-- Paginação -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchString="@ViewBag.SearchString">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

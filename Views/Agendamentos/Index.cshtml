@@ -1,60 +1,84 @@
 ﻿@model IEnumerable<TransporteWeb.Models.Agendamento>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Agendamentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Agendamentos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<!-- Formulário de busca alinhado à direita -->
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="Create" class="btn btn-success">Cadastrar Agendamento</a>
+
+    <form asp-action="Index" method="get" class="form-inline">
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Buscar agendamento..." class="form-control" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table text-white">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.data)
+                  DATA
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoViagem)
+                TIPO DE VIAGEM
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.estudante)
+                NOME DO ESTUDANTE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.veiculo)
+                VEICULO
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ponto)
+                PONTO
             </th>
-            <th></th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.data)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoViagem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.estudante.nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.veiculo.nomeveiculo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ponto.nomeponto)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoViagem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estudante.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.veiculo.nomeveiculo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ponto.nomeponto)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Detalhes</a>
+                   
+                    <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Remover</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<!-- Paginação -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchString="@ViewBag.SearchString">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

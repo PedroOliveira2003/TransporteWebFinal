@@ -54,6 +54,7 @@
         @if (User.IsInRole("Estudante"))
         {
             <a href="Agendamentos/Create" class="btn btn-primary btn-lg">Agendar</a>
+            <a href="Agendamentos/Index" class="btn btn-success btn-lg">Meus Agendamentos</a>
         }
         @if (User.IsInRole("Funcionario"))
         {
@@ -61,6 +62,12 @@
             <a href="Veiculos/Create" class="btn btn-success btn-lg">Veículos</a>
             <a href="Pontos/Create" class="btn btn-secondary btn-lg">Pontos de Embarque</a>
             <a href="Cursos/Create" class="btn btn-success btn-lg">Cursos</a>
+        }
+
+        @if (User.IsInRole("Motorista"))
+        {
+            <a href="Motoristas/Index" class="btn btn-secondary btn-lg">Confirmar Presença</a>
+            
         }
         
     </div>

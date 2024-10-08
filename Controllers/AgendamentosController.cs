@@ -18,10 +18,38 @@ namespace TransporteWeb.Controllers
         }
 
         // GET: Agendamentos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int? page, int pageSize = 10)
         {
-            var contexto = _context.Agendamentos.Include(a => a.estudante).Include(a => a.veiculo).Include(a => a.ponto);
-            return View(await contexto.ToListAsync());
+            int pageNumber = page ?? 1; // Se o número da página não for fornecido, default é 1.
+            var agendamentos = from a in _context.Agendamentos
+                               .Include(a => a.estudante)
+                               .Include(a => a.veiculo)
+                               .Include(a => a.ponto)
+                               select a;
+
+            // Aplica o filtro de busca
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                agendamentos = agendamentos.Where(a => a.estudante.nome.Contains(searchString) ||
+                                                        a.veiculo.nomeveiculo.Contains(searchString) ||
+                                                        a.ponto.nomeponto.Contains(searchString));
+            }
+
+            int totalItems = await agendamentos.CountAsync(); // Conta o total de itens após o filtro.
+
+            // Aplica a paginação
+            var agendamentosPaginados = await agendamentos
+                .OrderBy(a => a.data) // Ordena os agendamentos pela data.
+                .Skip((pageNumber - 1) * pageSize) // Pula os registros das páginas anteriores.
+                .Take(pageSize) // Pega o número de registros da página atual.
+                .ToListAsync();
+
+            // Passa o número de páginas e outros dados para a View
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.SearchString = searchString;
+
+            return View(agendamentosPaginados);
         }
 
         // GET: Agendamentos/Details/5
